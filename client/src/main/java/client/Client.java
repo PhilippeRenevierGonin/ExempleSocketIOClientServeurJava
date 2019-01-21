@@ -53,7 +53,11 @@ public class Client {
                     if (objects.length > 0 ) {
                         System.out.println("la réponse précédente était : "+objects[0]);
                         // false, c'est plus grand
-                        if (! objects[0].equals("false"))  pas=-1;
+                        boolean plusGrand = (Boolean)objects[0];
+                        // false, c'est plus petit... !! erreur... dans les commit d'avant
+
+                        if (plusGrand)  pas=-1;
+                        else pas=+1;
                     }
                     propositionCourante += pas;
                     System.out.println("on répond "+propositionCourante);
