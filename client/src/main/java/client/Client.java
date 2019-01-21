@@ -17,6 +17,10 @@ public class Client {
             e.printStackTrace();
         }
 
+
+        // Objet de synchro
+        final Object attenteDéconnexion = new Object();
+
         try {
             Socket mSocket = IO.socket("http://127.0.0.1:10101");
 
@@ -35,6 +39,10 @@ public class Client {
                     System.out.println(" !! on est déconnecté !! ");
                     mSocket.disconnect();
                     mSocket.close();
+
+                    synchronized (attenteDéconnexion) {
+                        attenteDéconnexion.notify();
+                    }
                 }
             });
 
@@ -46,6 +54,15 @@ public class Client {
         }
 
 
+        System.out.println("en attente de déconnexion");
+        synchronized (attenteDéconnexion) {
+            try {
+                attenteDéconnexion.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.err.println("erreur dans l'attente");
+            }
+        }
         System.out.println("fin du main pour le clien");
 
     }
