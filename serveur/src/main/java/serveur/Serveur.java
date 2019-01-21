@@ -13,37 +13,36 @@ import java.io.UnsupportedEncodingException;
  */
 public class Serveur {
 
+    SocketIOServer serveur;
+    final Object attenteConnexion = new Object();
 
-    public static final void main(String []args) {
-        try {
-            System.setOut(new PrintStream(System.out, true, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
-        Configuration config = new Configuration();
-        config.setHostname("127.0.0.1");
-        config.setPort(10101);
-
+    public Serveur(Configuration config) {
         // creation du serveur
-        SocketIOServer server = new SocketIOServer(config);
-        server.start();
+        serveur = new SocketIOServer(config);
 
         // Objet de synchro
-        final Object attenteConnexion = new Object();
 
         System.out.println("préparation du listener");
 
         // on accept une connexion
-        server.addConnectListener(new ConnectListener() {
+        serveur.addConnectListener(new ConnectListener() {
             public void onConnect(SocketIOClient socketIOClient) {
                 System.out.println("connexion de "+socketIOClient.getRemoteAddress());
                 synchronized (attenteConnexion) {
-                        attenteConnexion.notify();
-                    }
+                    attenteConnexion.notify();
+                }
             }
         });
 
+
+
+    }
+
+
+    private void démarrer() {
+
+        serveur.start();
 
         System.out.println("en attente de connexion");
         synchronized (attenteConnexion) {
@@ -56,11 +55,30 @@ public class Serveur {
         }
 
         System.out.println("Une connexion est arrivée, on arrête");
-        server.stop();
+        serveur.stop();
 
+    }
+
+
+    public static final void main(String []args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Configuration config = new Configuration();
+        config.setHostname("127.0.0.1");
+        config.setPort(10101);
+
+
+        Serveur serveur = new Serveur(config);
+        serveur.démarrer();
 
 
         System.out.println("fin du main");
 
     }
+
+
 }
