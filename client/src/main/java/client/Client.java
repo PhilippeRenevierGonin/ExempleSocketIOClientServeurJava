@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 public class Client {
 
     Socket connexion;
+    int propositionCourante = 50;
 
     // Objet de synchro
     final Object attenteDéconnexion = new Object();
@@ -47,9 +48,16 @@ public class Client {
             connexion.on("question", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
+                    int pas = 1;
                     System.out.println("on a reçu une question avec "+objects.length+" paramètre(s) ");
-                    System.out.println("on répond 42");
-                    connexion.emit("réponse",  "42");
+                    if (objects.length > 0 ) {
+                        System.out.println("la réponse précédente était : "+objects[0]);
+                        // false, c'est plus grand
+                        if (! objects[0].equals("false"))  pas=-1;
+                    }
+                    propositionCourante += pas;
+                    System.out.println("on répond "+propositionCourante);
+                    connexion.emit("réponse",  propositionCourante);
                 }
             });
 

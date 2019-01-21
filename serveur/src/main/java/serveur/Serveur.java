@@ -17,6 +17,7 @@ public class Serveur {
 
     SocketIOServer serveur;
     final Object attenteConnexion = new Object();
+    private int àTrouvé = 42;
 
 
     public Serveur(Configuration config) {
@@ -43,9 +44,17 @@ public class Serveur {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
                 System.out.println("La réponse de  "+socketIOClient.getRemoteAddress()+" est "+integer);
-                synchronized (attenteConnexion) {
-                    attenteConnexion.notify();
+                if (integer == àTrouvé) {
+                    System.out.println("le client a trouvé ! ");
+                    synchronized (attenteConnexion) {
+                        attenteConnexion.notify();
+                    }
+                } else
+                {
+                    System.out.println("le client doit encore cherché ");
+                    poserUneQuestion(socketIOClient, integer > àTrouvé);
                 }
+
             }
         });
 
@@ -77,6 +86,11 @@ public class Serveur {
     private void poserUneQuestion(SocketIOClient socketIOClient) {
         socketIOClient.sendEvent("question");
     }
+
+    private void poserUneQuestion(SocketIOClient socketIOClient, boolean plusGrand) {
+        socketIOClient.sendEvent("question", plusGrand);
+    }
+
 
 
     public static final void main(String []args) {
