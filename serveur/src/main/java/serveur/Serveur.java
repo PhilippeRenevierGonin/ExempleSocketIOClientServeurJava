@@ -38,7 +38,9 @@ public class Serveur {
         server.addConnectListener(new ConnectListener() {
             public void onConnect(SocketIOClient socketIOClient) {
                 System.out.println("connexion de "+socketIOClient.getRemoteAddress());
-                attenteConnexion.notify();
+                synchronized (attenteConnexion) {
+                        attenteConnexion.notify();
+                    }
             }
         });
 
