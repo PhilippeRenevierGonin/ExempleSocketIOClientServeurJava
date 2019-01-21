@@ -43,6 +43,17 @@ public class Client {
             });
 
 
+            // on recoit une question
+            connexion.on("question", new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    System.out.println("on a reçu une question avec "+objects.length+" paramètre(s) ");
+                    System.out.println("on répond 42");
+                    connexion.emit("réponse",  "42");
+                }
+            });
+
+
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
