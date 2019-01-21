@@ -34,8 +34,7 @@ public class Serveur {
         serveur.addConnectListener(new ConnectListener() {
             public void onConnect(SocketIOClient socketIOClient) {
                 System.out.println("connexion de "+socketIOClient.getRemoteAddress());
-                // on enchaine sur une question
-                poserUneQuestion(socketIOClient);
+
                 // on ne s'arrête plus ici
             }
         });
@@ -46,6 +45,9 @@ public class Serveur {
             public void onData(SocketIOClient socketIOClient, Identification identification, AckRequest ackRequest) throws Exception {
                 System.out.println("Le client est "+identification.getNom());
                 leClient = new Identification(identification.getNom(), identification.getNiveau());
+
+                // on enchaine sur une question
+                poserUneQuestion(socketIOClient);
             }
         });
 
