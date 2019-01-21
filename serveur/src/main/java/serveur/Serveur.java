@@ -11,13 +11,15 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 /**
- * attend une connexion, on envoie une question puis on attend une réponse,
+ * attend une connexion, on envoie une question puis on attend une réponse, jusqu'à la découverte de la bonne réponse
+ * le client s'identifie (som, niveau)
  */
 public class Serveur {
 
     SocketIOServer serveur;
     final Object attenteConnexion = new Object();
     private int àTrouvé = 42;
+    Identification leClient ;
 
 
     public Serveur(Configuration config) {
@@ -38,12 +40,21 @@ public class Serveur {
             }
         });
 
+        // réception d'une identification
+        serveur.addEventListener("identification", Identification.class, new DataListener<Identification>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, Identification identification, AckRequest ackRequest) throws Exception {
+                System.out.println("Le client est "+identification.getNom());
+                leClient = new Identification(identification.getNom(), identification.getNiveau());
+            }
+        });
 
-        // on attend une réponse
+
+            // on attend une réponse
         serveur.addEventListener("réponse", int.class, new DataListener<Integer>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
-                System.out.println("La réponse de  "+socketIOClient.getRemoteAddress()+" est "+integer);
+                System.out.println("La réponse de  "+leClient.getNom()+" est "+integer);
                 if (integer == àTrouvé) {
                     System.out.println("le client a trouvé ! ");
                     synchronized (attenteConnexion) {

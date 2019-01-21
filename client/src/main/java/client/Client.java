@@ -3,12 +3,17 @@ package client;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import netscape.javascript.JSObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 
 public class Client {
+
+    Identification moi = new Identification("Michel B", 42);
 
     Socket connexion;
     int propositionCourante = 50;
@@ -26,7 +31,12 @@ public class Client {
             connexion.on("connect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    System.out.println(" on est connecté ! ");
+                    System.out.println(" on est connecté ! et on s'identifie ");
+
+                    // on s'identifie
+                    JSONObject id = new JSONObject(moi);
+                    connexion.emit("identification", id);
+
                 }
             });
 
