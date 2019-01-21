@@ -10,35 +10,31 @@ import java.net.URISyntaxException;
 
 public class Client {
 
-    public static final void main(String []args) {
-        try {
-            System.setOut(new PrintStream(System.out, true, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+    Socket connexion;
 
+    // Objet de synchro
+    final Object attenteDéconnexion = new Object();
 
-        // Objet de synchro
-        final Object attenteDéconnexion = new Object();
+    public Client(String urlServeur) {
 
         try {
-            Socket mSocket = IO.socket("http://127.0.0.1:10101");
+            connexion = IO.socket(urlServeur);
 
             System.out.println("on s'abonne à la connection / déconnection ");;
 
-            mSocket.on("connect", new Emitter.Listener() {
+            connexion.on("connect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
                     System.out.println(" on est connecté ! ");
                 }
             });
 
-            mSocket.on("disconnect", new Emitter.Listener() {
+            connexion.on("disconnect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
                     System.out.println(" !! on est déconnecté !! ");
-                    mSocket.disconnect();
-                    mSocket.close();
+                    connexion.disconnect();
+                    connexion.close();
 
                     synchronized (attenteDéconnexion) {
                         attenteDéconnexion.notify();
@@ -46,13 +42,17 @@ public class Client {
                 }
             });
 
-            // on se connecte
-            mSocket.connect();
+
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void seConnecter() {
+        // on se connecte
+        connexion.connect();
 
         System.out.println("en attente de déconnexion");
         synchronized (attenteDéconnexion) {
@@ -63,6 +63,20 @@ public class Client {
                 System.err.println("erreur dans l'attente");
             }
         }
+    }
+
+    public static final void main(String []args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        Client client = new Client("http://127.0.0.1:10101");
+        client.seConnecter();
+
+
+
         System.out.println("fin du main pour le clien");
 
     }
