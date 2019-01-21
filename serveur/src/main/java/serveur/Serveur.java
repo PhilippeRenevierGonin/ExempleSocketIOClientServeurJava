@@ -9,6 +9,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * attend une connexion, on envoie une question puis on attend une réponse, jusqu'à la découverte de la bonne réponse
@@ -20,6 +21,8 @@ public class Serveur {
     final Object attenteConnexion = new Object();
     private int àTrouvé = 42;
     Identification leClient ;
+
+    ArrayList<Coup> coups = new ArrayList<>();
 
 
     public Serveur(Configuration config) {
@@ -57,6 +60,7 @@ public class Serveur {
             @Override
             public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
                 System.out.println("La réponse de  "+leClient.getNom()+" est "+integer);
+                Coup coup = new Coup(integer, integer > àTrouvé);
                 if (integer == àTrouvé) {
                     System.out.println("le client a trouvé ! ");
                     synchronized (attenteConnexion) {
@@ -64,8 +68,9 @@ public class Serveur {
                     }
                 } else
                 {
+                    coups.add(coup);
                     System.out.println("le client doit encore cherché ");
-                    poserUneQuestion(socketIOClient, integer > àTrouvé);
+                    poserUneQuestion(socketIOClient, coup.isPlusGrand());
                 }
 
             }
@@ -101,7 +106,7 @@ public class Serveur {
     }
 
     private void poserUneQuestion(SocketIOClient socketIOClient, boolean plusGrand) {
-        socketIOClient.sendEvent("question", plusGrand);
+        socketIOClient.sendEvent("question", plusGrand, coups);
     }
 
 
