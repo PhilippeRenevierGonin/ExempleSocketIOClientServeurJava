@@ -1,10 +1,9 @@
-package serveur;
+package commun;
 
 public class Identification {
 
     private String nom ;
     private int niveau;
-
 
     public Identification() {}
 

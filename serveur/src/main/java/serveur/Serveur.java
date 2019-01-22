@@ -6,6 +6,8 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
+import commun.Coup;
+import commun.Identification;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;

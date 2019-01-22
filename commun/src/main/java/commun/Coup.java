@@ -1,4 +1,4 @@
-package serveur;
+package commun;
 
 public class Coup {
     private int coup ;
@@ -24,5 +24,10 @@ public class Coup {
     public Coup(int val, boolean sup) {
         setCoup(val);
         setPlusGrand(sup);
+    }
+
+    @Override
+    public String toString() {
+        return ""+getCoup()+"/"+(isPlusGrand()?">":"<");
     }
 }
