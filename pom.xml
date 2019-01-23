@@ -12,6 +12,7 @@
 		<module>commun</module>
 		<module>serveur</module>
         <module>client</module>
+        <module>lanceur</module>
 	</modules>
 
 	<packaging>pom</packaging>
@@ -39,6 +40,43 @@
             </plugin>
 
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <show>package</show>
+                    <nohelp>true</nohelp>
+                    <encoding>utf-8</encoding> <!-- éventuellement à changer : encodage de vos fichiers -->
+                    <charset>utf-8</charset> <!-- éventuellement à changer : encodage de vos fichiers -->
+                    <docencoding>utf-8</docencoding>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <id>javadoc</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/</outputDirectory>
+                            <reportOutputDirectory>${basedir}/target/</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-javadoc</id>
+                        <goals>
+                            <goal>test-javadoc</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <reportOutputDirectory>${basedir}/target/test/</reportOutputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+
+            </plugin>
             
 
         </plugins>
