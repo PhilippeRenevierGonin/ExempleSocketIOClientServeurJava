@@ -7,9 +7,28 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="bienvenue sur trouver le nombre"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:hint="entrer un nombre entre 0 et 100"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-         />
+        android:ems="10"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jouer"
+        android:layout_toRightOf="@id/editText"
+        android:layout_below="@id/textView"/>
 
 </RelativeLayout>
