@@ -21,6 +21,9 @@ Les différentes étapes :
     * tag étape5.1 : un lanceur (nouveau module) est ajouté pour exécuter en même temps le client et le serveur
     un peu de javadoc est ajouté (pom.xml parent et classe _Coup_) (utilisation avec _mvn site_)
 * branche **android**
+    * basée sur étape5.1
+    * différents commit avant d'atteindre la android-v1 : déplacement des anciens fichiers (dans javastd), création du projet android, adaptation du code "client" par refactoring et en transformant un "bot" en code interfactif
+    * android-v1 : on peut rechercher le nombre, une fois trouvé, c'est "bloqué" (le serveur s'arrête, les éléments graphiques sont disabled).
 
 les dépendences maven côté serveur : 
 ```
