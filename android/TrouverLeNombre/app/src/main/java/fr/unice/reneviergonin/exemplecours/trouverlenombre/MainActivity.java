@@ -3,6 +3,7 @@ package fr.unice.reneviergonin.exemplecours.trouverlenombre;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,9 +45,8 @@ public class MainActivity extends Activity implements Vue {
         // ici pas d'IA mais un joueur humain
 
 
-        // ce n'est pas encore prêt
-        // connexion.seConnecter();
-
+        // on pourrait le faire à partir d'un bouton...
+        connexion.seConnecter();
 
     }
 
@@ -79,9 +79,22 @@ public class MainActivity extends Activity implements Vue {
     public int valeurJouée() {
         String saisie = valeur.getText().toString();
         int val = -1;
-        if ((saisie != null) && (!saisie.equals(""))) {
+        Log.e("debug", "saisie = "+saisie);
+        if ((saisie != null) && (! saisie.equals(""))) {
             val = Integer.parseInt(saisie);
         }
         return val;
+    }
+
+    @Override
+    public void finit() {
+        // appelé depuis le thread de socketIO
+        btnJouer.post(new Runnable() {
+            @Override
+            public void run() {
+                btnJouer.setEnabled(false);
+                valeur.setEnabled(false);
+            }
+        });
     }
 }

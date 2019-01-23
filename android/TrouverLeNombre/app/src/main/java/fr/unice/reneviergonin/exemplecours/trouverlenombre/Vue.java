@@ -10,4 +10,5 @@ interface Vue {
     int valeurJouée();
 
 
+    void finit();
 }

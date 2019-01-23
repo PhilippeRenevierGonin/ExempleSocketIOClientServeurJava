@@ -1,12 +1,16 @@
 package fr.unice.reneviergonin.exemplecours.trouverlenombre;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import commun.Coup;
+import commun.Identification;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -88,8 +92,24 @@ public class Connexion  {
 
     public void seConnecter() {
         // on se connecte
+        Log.e("debug", "essaie de se connecter");
         connexion.connect();
 
     }
 
+    public void envoyerId(Identification moi) {
+        // pas de conversion automatique obj <-> json avec le json de base d'android
+        JSONObject pieceJointe = new JSONObject();
+        try {
+            pieceJointe.put("nom", moi.getNom());
+            pieceJointe.put("niveau", moi.getNiveau());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        connexion.emit("identification", pieceJointe);
+    }
+
+    public void envoyerCoup(int val) {
+        connexion.emit("réponse",val);
+    }
 }
