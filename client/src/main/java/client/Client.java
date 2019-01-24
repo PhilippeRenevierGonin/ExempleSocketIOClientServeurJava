@@ -8,7 +8,6 @@ import commun.Identification;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Client {
