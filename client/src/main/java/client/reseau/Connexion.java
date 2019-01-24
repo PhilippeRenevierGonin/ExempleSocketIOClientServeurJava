@@ -25,13 +25,12 @@ public class Connexion {
         try {
             connexion = IO.socket(urlServeur);
 
-            System.out.println("on s'abonne à la connection / déconnection ");;
+            this.controleur.transfèreMessage("on s'abonne à la connection / déconnection ");;
 
             connexion.on("connect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    System.out.println(" on est connecté ! et on s'identifie ");
-
+                    // déplacement du message dans Client/Controleur
                     // on s'identifie
                     controleur.aprèsConnexion();
 
@@ -41,7 +40,7 @@ public class Connexion {
             connexion.on("disconnect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    System.out.println(" !! on est déconnecté !! ");
+                    controleur.transfèreMessage(" !! on est déconnecté !! ");
                     connexion.disconnect();
                     connexion.close();
                     controleur.finPartie();
@@ -54,9 +53,9 @@ public class Connexion {
             connexion.on("question", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    System.out.println("on a reçu une question avec "+objects.length+" paramètre(s) ");
+                    // message sans intérêt pour le client... // System.out.println("on a reçu une question avec "+objects.length+" paramètre(s) ");
                     if (objects.length > 0 ) {
-                        System.out.println("la réponse précédente était : "+objects[0]);
+                        // déplacement du message dans Client/Controleur
 
                         boolean plusGrand = (Boolean)objects[0];
                         // false, c'est plus petit... !! erreur... dans les commit d'avant

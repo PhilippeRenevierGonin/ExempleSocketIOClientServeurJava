@@ -1,6 +1,7 @@
 package client;
 
 import client.reseau.Connexion;
+import client.vue.Vue;
 import commun.Coup;
 import commun.Identification;
 
@@ -19,37 +20,64 @@ public class Client {
 
     // Objet de synchro
     final Object attenteDéconnexion = new Object();
+    private Vue vue;
 
     public Client() {
     }
 
-    private void seConnecter() {
-        // on se connecte
-        this.connexion.seConnecter();
 
-        System.out.println(moi.getNom()+"> en attente de déconnexion");
-        synchronized (attenteDéconnexion) {
-            try {
-                attenteDéconnexion.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.err.println(moi.getNom()+"> erreur dans l'attente");
-            }
-        }
-    }
-
+    /** un ensemble de getter et setter **/
 
 
     public void setConnexion(Connexion connexion) {
         this.connexion = connexion;
     }
 
+    private Connexion getConnexion() {
+        return connexion;
+    }
+
+
+    public Identification getIdentification() {
+        return moi;
+    }
+
+    public void setVue(Vue vue) {
+        this.vue = vue;
+    }
+
+    public Vue getVue() {
+        return vue;
+    }
+
+    private void seConnecter() {
+        // on se connecte
+        this.connexion.seConnecter();
+
+        getVue().afficheMessage("en attente de déconnexion");
+        synchronized (attenteDéconnexion) {
+            try {
+                attenteDéconnexion.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                getVue().afficheMessageErreur("> erreur dans l'attente");
+            }
+        }
+    }
+
+
+
+
+
+
+
     public void aprèsConnexion() {
+        getVue().afficheMessage("on est connecté ! et on s'identifie ");
         this.connexion.envoyerId(moi);
     }
 
     public void finPartie() {
-        System.out.println(moi.getNom()+"> on a gagné !! ");
+        getVue().afficheMessage("on a gagné !! ");
         synchronized (attenteDéconnexion) {
             attenteDéconnexion.notify();
         }
@@ -57,6 +85,8 @@ public class Client {
 
 
     public void rejouer(boolean plusGrand, ArrayList<Coup> coups) {
+        getVue().afficheMessage("la réponse précédente était : "+(plusGrand?"trop grande":"trop petite"));
+
         int pas = 1;
 
         if (plusGrand)  pas=-1;
@@ -66,9 +96,11 @@ public class Client {
         // pour l'instant
 
         propositionCourante += pas;
-        System.out.println(moi.getNom()+"> on répond "+propositionCourante);
-        connexion.envoyerCoup(propositionCourante);
+        getVue().afficheMessage("on répond "+propositionCourante);
+        getConnexion().envoyerCoup(propositionCourante);
     }
+
+
 
     public void premierCoup() {
         // au premier coup, on envoie le nombre initial
@@ -87,6 +119,7 @@ public class Client {
         }
 
         Client client = new Client();
+        Vue vue = new Vue(client);
         Connexion connexion = new Connexion("http://127.0.0.1:10101", client);
         client.seConnecter();
 
@@ -94,5 +127,10 @@ public class Client {
 
         System.out.println("fin du main pour le client");
 
+    }
+
+
+    public void transfèreMessage(String s) {
+        getVue().afficheMessage(s);
     }
 }
