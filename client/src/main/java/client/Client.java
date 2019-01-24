@@ -27,13 +27,13 @@ public class Client {
         // on se connecte
         this.connexion.seConnecter();
 
-        System.out.println("en attente de déconnexion");
+        System.out.println(moi.getNom()+"> en attente de déconnexion");
         synchronized (attenteDéconnexion) {
             try {
                 attenteDéconnexion.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                System.err.println("erreur dans l'attente");
+                System.err.println(moi.getNom()+"> erreur dans l'attente");
             }
         }
     }
@@ -49,7 +49,7 @@ public class Client {
     }
 
     public void finPartie() {
-        System.out.println("on a gagné !! ");
+        System.out.println(moi.getNom()+"> on a gagné !! ");
         synchronized (attenteDéconnexion) {
             attenteDéconnexion.notify();
         }
@@ -66,7 +66,7 @@ public class Client {
         // pour l'instant
 
         propositionCourante += pas;
-        System.out.println("on répond "+propositionCourante);
+        System.out.println(moi.getNom()+"> on répond "+propositionCourante);
         connexion.envoyerCoup(propositionCourante);
     }
 
