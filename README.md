@@ -3,7 +3,7 @@ pour les cours de projets en Licence, exemple de client serveur
 Note : le serveur étant vexé quand on trouve le résultat, il se contente de se (ren)fermer :-)
 
 Les différentes étapes : 
-* branche **master**
+* branche **master** : version non testée, juste pour illuster la relation client-serveur
     * tag étape1 : handshake, un serveur est lancé, un client ce connecte et c'est fini
     le client et le serveur écoute des évènements spéciaux : connexion, déconnexion
     **il y a deux projets java : serveur et client**
@@ -21,6 +21,7 @@ Les différentes étapes :
     * tag étape5.1 : un lanceur (nouveau module) est ajouté pour exécuter en même temps le client et le serveur
     un peu de javadoc est ajouté (pom.xml parent et classe _Coup_) (utilisation avec _mvn site_)
 * branche **android**
+* branche **test**
 
 les dépendences maven côté serveur : 
 ```
