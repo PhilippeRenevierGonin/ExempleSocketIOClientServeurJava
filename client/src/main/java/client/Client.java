@@ -15,7 +15,7 @@ public class Client {
     Identification moi = new Identification("Michel B", 42);
 
     Connexion connexion;
-    int propositionCourante = 50;
+    int propositionCourante = 30;
 
     // Objet de synchro
     final Object attenteDéconnexion = new Object();
@@ -36,6 +36,13 @@ public class Client {
         return connexion;
     }
 
+    public int getPropositionCourante() {
+        return propositionCourante;
+    }
+
+    public void setPropositionCourante(int propositionCourante) {
+        this.propositionCourante = propositionCourante;
+    }
 
     public Identification getIdentification() {
         return moi;
