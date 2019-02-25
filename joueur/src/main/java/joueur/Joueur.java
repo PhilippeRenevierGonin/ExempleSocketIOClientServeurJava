@@ -81,6 +81,9 @@ public class Joueur {
                         }
                         System.out.println(nom+" > j'ai recu "+m);
 
+                        // le joueur a reçu, il joue
+                        jouer(m);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -90,6 +93,20 @@ public class Joueur {
         URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void jouer(Main m) {
+        // ne fonctionne pas dans Android
+        JSONObject pieceJointe = new JSONObject(m.getCartes().get(0)) ;
+
+        // dans Android, il faudrait faire :
+        // JSONObject pieceJointe = new JSONObject();
+        // pieceJointe.put("name", m.getCartes().get(0).getName());
+        // et il faudrait faire cela entre try / catch
+
+        System.out.println(nom + " > je joue "+m.getCartes().get(0));
+        connexion.emit(MESSAGES.JE_JOUE, pieceJointe);
     }
 
     public void démarrer() {

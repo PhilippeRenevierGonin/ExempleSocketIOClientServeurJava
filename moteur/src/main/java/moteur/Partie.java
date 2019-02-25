@@ -65,6 +65,22 @@ public class Partie {
         });
 
 
+        // réception de la carte jouée
+        serveur.addEventListener(MESSAGES.JE_JOUE, Carte.class, new DataListener<Carte>() {
+            @Override
+            public void onData(SocketIOClient socketIOClient, Carte carte, AckRequest ackRequest) throws Exception {
+                // retrouver le participant
+                Participant p = retrouveParticipant(socketIOClient);
+                if (p != null) {
+                    System.out.println("serveur > "+p+" a joue "+carte);
+                    // puis lui supprimer de sa main la carte jouée
+                    p.getMain().getCartes().remove(carte);
+                    System.out.println("serveur > il reste a "+p+" les cartes "+p.getMain().getCartes());
+
+                    // etc.
+                }
+            }
+        });
     }
 
     private void débuterLeJeu() {

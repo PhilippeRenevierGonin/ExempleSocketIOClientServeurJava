@@ -28,7 +28,7 @@ public class Participant {
 
 
     public String toString() {
-        return "[Joueur  : "+getSocket().getRemoteAddress()+"]";
+        return "[Joueur "+getNom()+" : "+getSocket().getRemoteAddress()+"]";
     }
 
 
