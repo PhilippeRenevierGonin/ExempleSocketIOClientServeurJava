@@ -1,6 +1,7 @@
 package joueur;
 
 import config.CONFIG;
+import config.MESSAGES;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -25,7 +26,9 @@ public class Joueur {
             connexion.on("connect", new Emitter.Listener() {
                 @Override
                 public void call(Object... objects) {
-                    System.out.println(nom + " > connecte");
+                    System.out.println(getNom() + " > connecte");
+                    System.out.println(getNom()+" > envoi de mon nom");
+                    connexion.emit(MESSAGES.MON_NOM, getNom());
                 }
             });
         } catch (

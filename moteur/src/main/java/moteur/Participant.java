@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 public class Participant {
 
     private SocketIOClient socket;
+    private String nom;
 
 
     public Participant(SocketIOClient socketIOClient) {
@@ -27,4 +28,11 @@ public class Participant {
     }
 
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
 }
