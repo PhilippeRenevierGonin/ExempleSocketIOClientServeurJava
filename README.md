@@ -1,4 +1,10 @@
 # ExempleSocketIOClientServeurJava
+
+Pour cloner uniquement cette branche (indépendante et indépendemment des autres) : 
+```
+git clone --single-branch --branch autreExemple https://github.com/PhilippeRenevierGonin/ExempleSocketIOClientServeurJava.git
+```
+
 pour les cours de projets en Licence, exemple de client serveur : cette branche autreExemple, montre des étapes pour la création d'un début de jeu pour un jeu, 7wonders. 
 Pour cette mise en place, les étapes sont : 
    * mises en place des modules maven : 
