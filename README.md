@@ -21,7 +21,7 @@ Pour cette mise en place, les étapes sont :
        * le nom des messages est également partagé à travers des constantes
        * le joueur n'envoie que son nom, juste une String
        * le serveur doit retrouver le Participant correspondant à la socket émitrice pour en changer le nom
-   * quand les 4 joueurs sont connectés, **le moteur démarre une partie** 
+   * quand les 4 joueurs sont identifiés, **le moteur démarre une partie** 
        * une merveille (une donnée) est envoyé par le moteur à chaque client
        * la merveille d'un joueur est mémorisé côté moteur dans la classe Participant
        * le moteur envoie une main (7 cartes) 
