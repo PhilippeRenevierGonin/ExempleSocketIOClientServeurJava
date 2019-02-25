@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>moi</groupId>
+    <artifactId>7w</artifactId>
+	<version>1</version>
+	
+	<modules>
+		<module>donnees</module>
+		<module>moteur</module>
+        <module>joueur</module>
+        <module>7w</module>
+	</modules>
+	
+	<packaging>pom</packaging>
+	
+	   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
+        <compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+        <compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+	</properties>
+	
+	<build>
+
+
+        <plugins>
+
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.0</version>
+            <configuration>
+                <source>1.8</source> <!-- éventuellement à changer : version de java -->
+                <target>1.8</target> <!-- éventuellement à changer : version de java -->
+            </configuration>
+        </plugin>
+
+    </plugins>
+    </build>
+
+    <dependencies>
+        
+    </dependencies>
+
+</project>
