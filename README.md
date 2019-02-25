@@ -7,14 +7,14 @@ git clone --single-branch --branch autreExemple https://github.com/PhilippeRenev
 
 Pour les cours de projets en Licence, exemple de client serveur (**sans tests**, pour se concentrer sur le découpage client-serveur et les fonctionnalités intégrées itérativement) : cette branche autreExemple, montre des étapes pour la création d'un début de jeu pour un jeu, 7wonders. 
 Pour cette mise en place, les étapes sont : 
-   * mises en place des modules maven : 
-       * le module parent
-       * le module donnees (commun au client et au serveur)
-       * le module moteur (le serveur)
-       * le module joueur (le client)
-       * le module lanceur pour exécuter des parties
    * création d'une **simple connexion** avec un joueur et une partie
        * une configuration est partagée à travers des constantes (classe "static")
+       * mises en place des modules maven : 
+          * le module parent
+          * le module donnees (commun au client et au serveur)
+          * le module moteur (le serveur)
+          * le module joueur (le client)
+          * le module lanceur pour exécuter des parties
    * on passe à **4 joueurs**
        * le serveur mémorise les joueurs (et leur socket) dans la classe Participant
    * Premier message : à la connexion les joueurs, **les joueurs s'identifient**
