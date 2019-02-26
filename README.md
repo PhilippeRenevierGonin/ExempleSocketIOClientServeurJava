@@ -22,6 +22,7 @@ Les différentes étapes :
     un peu de javadoc est ajouté (pom.xml parent et classe _Coup_) (utilisation avec _mvn site_)
 * branche **android**
 * branche **test**
+* branche **autreExemple** : un début de développement (sans test) sur le jeu 7Wonders
 
 les dépendences maven côté serveur : 
 ```
