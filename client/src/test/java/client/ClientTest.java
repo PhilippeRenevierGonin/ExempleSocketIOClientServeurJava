@@ -1,13 +1,12 @@
 package client;
 
-import client.reseau.Connexion;
+import client.reseau.ConnexionClient;
 import client.vue.Vue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
@@ -23,7 +22,7 @@ class ClientTest {
     private Client client;
 
     @Mock
-    private Connexion connexion;
+    private ConnexionClient connexion;
 
     @Mock
     private Vue vue;

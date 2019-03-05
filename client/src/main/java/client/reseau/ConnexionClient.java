@@ -13,12 +13,12 @@ import org.json.JSONObject;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-public class Connexion {
+public class ConnexionClient {
 
     private final Client controleur;
     Socket connexion;
 
-    public Connexion(String urlServeur, Client ctrl) {
+    public ConnexionClient(String urlServeur, Client ctrl) {
         this.controleur = ctrl;
         controleur.setConnexion(this);
 
@@ -72,6 +72,7 @@ public class Connexion {
                             }
                         }
 
+                        System.out.println("@todo >>>> on reçoit bien la liste des coups, mais on en fait rien >>>>> "+coups);
                         controleur.rejouer(plusGrand, coups);
 
 

@@ -1,6 +1,6 @@
 package client;
 
-import client.reseau.Connexion;
+import client.reseau.ConnexionClient;
 import client.vue.Vue;
 import commun.Coup;
 import commun.Identification;
@@ -14,7 +14,7 @@ public class Client {
 
     Identification moi = new Identification("Michel B", 42);
 
-    Connexion connexion;
+    ConnexionClient connexion;
     int propositionCourante = 30;
 
     // Objet de synchro
@@ -27,11 +27,11 @@ public class Client {
     /** un ensemble de getter et setter **/
 
 
-    public void setConnexion(Connexion connexion) {
+    public void setConnexion(ConnexionClient connexion) {
         this.connexion = connexion;
     }
 
-    private Connexion getConnexion() {
+    private ConnexionClient getConnexion() {
         return connexion;
     }
 
@@ -116,7 +116,7 @@ public class Client {
 
         Client client = new Client();
         Vue vue = new Vue(client);
-        Connexion connexion = new Connexion("http://127.0.0.1:10101", client);
+        ConnexionClient connexion = new ConnexionClient("http://127.0.0.1:10101", client);
         client.seConnecter();
 
 

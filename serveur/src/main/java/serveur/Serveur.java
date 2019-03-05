@@ -1,13 +1,11 @@
 package serveur;
 
-import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.Configuration;
+
 import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DataListener;
+
 import commun.Coup;
 import commun.Identification;
+import reseau.ConnexionServeur;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -19,83 +17,40 @@ import java.util.ArrayList;
  */
 public class Serveur {
 
-    SocketIOServer serveur;
     private int àTrouvé = 42;
     Identification leClient ;
 
     ArrayList<Coup> coups = new ArrayList<>();
 
+    ConnexionServeur connexion;
 
-    public Serveur(Configuration config) {
-        // creation du serveur
-        serveur = new SocketIOServer(config);
+    public ConnexionServeur getConnexion() {
+        return connexion;
+    }
 
-        // Objet de synchro
+    public void setConnexion(ConnexionServeur connexion) {
+        this.connexion = connexion;
+    }
 
-        System.out.println("préparation du listener");
-
-        // on accept une connexion
-        serveur.addConnectListener(new ConnectListener() {
-            public void onConnect(SocketIOClient socketIOClient) {
-                System.out.println("connexion de "+socketIOClient.getRemoteAddress());
-
-                // on ne s'arrête plus ici
-            }
-        });
-
-        // réception d'une identification
-        serveur.addEventListener("identification", Identification.class, new DataListener<Identification>() {
-            @Override
-            public void onData(SocketIOClient socketIOClient, Identification identification, AckRequest ackRequest) throws Exception {
-                System.out.println("Le client est "+identification.getNom());
-                leClient = new Identification(identification.getNom(), identification.getNiveau());
-
-                // on enchaine sur une question
-                poserUneQuestion(socketIOClient);
-            }
-        });
-
-
-            // on attend une réponse
-        serveur.addEventListener("réponse", int.class, new DataListener<Integer>() {
-            @Override
-            public void onData(SocketIOClient socketIOClient, Integer integer, AckRequest ackRequest) throws Exception {
-                System.out.println("La réponse de  "+leClient.getNom()+" est "+integer);
-                Coup coup = new Coup(integer, integer > àTrouvé);
-                if (integer == àTrouvé) {
-                    System.out.println("le client a trouvé ! ");
-                    // fin brutale
-                    socketIOClient.disconnect();
-                    serveur.stop();
-                } else
-                {
-                    coups.add(coup);
-                    System.out.println("le client doit encore cherché ");
-                    poserUneQuestion(socketIOClient, coup.isPlusGrand());
-                }
-
-            }
-        });
-
-
+    public Serveur()  {
 
     }
 
 
     public void démarrer() {
 
-        serveur.start();
+        connexion.démarrer();
 
 
     }
 
 
-    private void poserUneQuestion(SocketIOClient socketIOClient) {
-        socketIOClient.sendEvent("question");
+    private void poserUneQuestion() {
+        getConnexion().envoyerMessage(leClient, "question");
     }
 
-    private void poserUneQuestion(SocketIOClient socketIOClient, boolean plusGrand) {
-        socketIOClient.sendEvent("question", plusGrand, coups);
+    private void poserUneQuestion(boolean plusGrand) {
+        getConnexion().envoyerMessage(leClient, "question", plusGrand, coups);
     }
 
 
@@ -107,18 +62,39 @@ public class Serveur {
             e.printStackTrace();
         }
 
-        Configuration config = new Configuration();
-        config.setHostname("127.0.0.1");
-        config.setPort(10101);
+        Serveur serveur = new Serveur();
+        ConnexionServeur connexion = new ConnexionServeur("127.0.0.1", 10101);
 
+        connexion.setMoteur(serveur);
+        serveur.setConnexion(connexion);
 
-        Serveur serveur = new Serveur(config);
         serveur.démarrer();
 
 
-        System.out.println("fin du main");
 
     }
 
 
+    public void nouveauJoeur(SocketIOClient socketIOClient, Identification identification) {
+        System.out.println("Le client est "+identification.getNom());
+        leClient = new Identification(identification.getNom(), identification.getNiveau());
+        connexion.associer(leClient, socketIOClient);
+        // on enchaine sur une question
+        poserUneQuestion();
+    }
+
+    public void reçoitRéponse(Integer integer) {
+        System.out.println("La réponse de  "+leClient.getNom()+" est "+integer);
+        Coup coup = new Coup(integer, integer > àTrouvé);
+        if (integer == àTrouvé) {
+            System.out.println("le client a trouvé ! ");
+            // fin brutale
+            getConnexion().arrêter();
+        } else
+        {
+            coups.add(coup);
+            System.out.println("le client doit encore cherché ");
+            poserUneQuestion(coup.isPlusGrand());
+        }
+    }
 }

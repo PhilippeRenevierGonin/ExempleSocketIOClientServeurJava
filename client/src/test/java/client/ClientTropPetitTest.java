@@ -1,6 +1,6 @@
 package client;
 
-import client.reseau.Connexion;
+import client.reseau.ConnexionClient;
 import client.vue.Vue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -24,7 +24,7 @@ class ClientTropPetitTest {
     Client client;
 
     @Mock
-    Connexion connexion;
+    ConnexionClient connexion;
 
     @Mock
     Vue vue;

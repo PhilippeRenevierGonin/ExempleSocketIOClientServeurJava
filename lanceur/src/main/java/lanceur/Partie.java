@@ -1,9 +1,10 @@
 package lanceur;
 
 import client.Client;
-import client.reseau.Connexion;
+import client.reseau.ConnexionClient;
 import client.vue.Vue;
 import com.corundumstudio.socketio.Configuration;
+import reseau.ConnexionServeur;
 import serveur.Serveur;
 
 import java.io.PrintStream;
@@ -20,18 +21,17 @@ public class Partie {
         }
 
         /*** création du serveur ***/
-        Configuration config = new Configuration();
-        config.setHostname("127.0.0.1");
-        config.setPort(10101);
+        Serveur serveur = new Serveur();
+        ConnexionServeur connexionS = new ConnexionServeur("127.0.0.1", 10101);
 
-
-        Serveur serveur = new Serveur(config);
+        connexionS.setMoteur(serveur);
+        serveur.setConnexion(connexionS);
         serveur.démarrer();
 
         /*** création du client ***/
         Client client = new Client();
         Vue vue = new Vue(client);
-        Connexion connexion = new Connexion("http://127.0.0.1:10101", client);
+        ConnexionClient connexionC = new ConnexionClient("http://127.0.0.1:10101", client);
         client.seConnecter();
 
 
