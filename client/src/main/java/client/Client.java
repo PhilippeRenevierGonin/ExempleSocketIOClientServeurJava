@@ -18,7 +18,6 @@ public class Client {
     int propositionCourante = 30;
 
     // Objet de synchro
-    final Object attenteDéconnexion = new Object();
     private Vue vue;
 
     public Client() {
@@ -56,19 +55,12 @@ public class Client {
         return vue;
     }
 
-    private void seConnecter() {
+    public void seConnecter() {
         // on se connecte
         this.connexion.seConnecter();
 
         getVue().afficheMessage("en attente de déconnexion");
-        synchronized (attenteDéconnexion) {
-            try {
-                attenteDéconnexion.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                getVue().afficheMessageErreur("> erreur dans l'attente");
-            }
-        }
+
     }
 
 
@@ -84,9 +76,7 @@ public class Client {
 
     public void finPartie() {
         getVue().afficheMessage("on a gagné !! ");
-        synchronized (attenteDéconnexion) {
-            attenteDéconnexion.notify();
-        }
+        getConnexion().stop();
     }
 
 

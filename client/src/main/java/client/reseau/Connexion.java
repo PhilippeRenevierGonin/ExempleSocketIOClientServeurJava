@@ -102,4 +102,12 @@ public class Connexion {
     public void envoyerCoup(int val) {
         connexion.emit("réponse",val);
     }
+
+    public void stop() {
+
+        connexion.disconnect();
+        connexion.close();
+    }
+
+
 }

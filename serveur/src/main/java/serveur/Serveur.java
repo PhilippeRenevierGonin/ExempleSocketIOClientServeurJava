@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class Serveur {
 
     SocketIOServer serveur;
-    final Object attenteConnexion = new Object();
     private int àTrouvé = 42;
     Identification leClient ;
 
@@ -65,9 +64,9 @@ public class Serveur {
                 Coup coup = new Coup(integer, integer > àTrouvé);
                 if (integer == àTrouvé) {
                     System.out.println("le client a trouvé ! ");
-                    synchronized (attenteConnexion) {
-                        attenteConnexion.notify();
-                    }
+                    // fin brutale
+                    socketIOClient.disconnect();
+                    serveur.stop();
                 } else
                 {
                     coups.add(coup);
@@ -83,22 +82,10 @@ public class Serveur {
     }
 
 
-    private void démarrer() {
+    public void démarrer() {
 
         serveur.start();
 
-        System.out.println("en attente de connexion");
-        synchronized (attenteConnexion) {
-            try {
-                attenteConnexion.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.err.println("erreur dans l'attente");
-            }
-        }
-
-        System.out.println("Une connexion est arrivée, on arrête");
-        serveur.stop();
 
     }
 
