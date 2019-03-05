@@ -25,6 +25,7 @@ Les différentes étapes :
     * il y a tout d'abord un refactoring en 3 temps (isolation de la connexion avec le serveur, puis isolation des sorties textuelles)
     * il y a la configuration pour JUnit 5 dans le pom.xml
     * il y a quelques tests, d'un coup, y compris un test paramétré (ajout d'une dépendence dans le pom.xml)
+    * Ensuite, une restructuration du serveur est entamé pour séparer connexion et moteur de jeu
 
 les dépendences maven côté serveur : 
 ```
