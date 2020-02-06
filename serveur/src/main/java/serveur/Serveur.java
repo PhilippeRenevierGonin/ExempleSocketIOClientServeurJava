@@ -90,6 +90,7 @@ public class Serveur {
             System.out.println("le client a trouvé ! ");
             // fin brutale
             getConnexion().arrêter();
+
         } else
         {
             coups.add(coup);

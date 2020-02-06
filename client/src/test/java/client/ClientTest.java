@@ -100,9 +100,9 @@ class ClientTest {
         }
 
         // 6 trop grand, 6 on répond et on a gagné
-        verify(vue, times(13)).afficheMessage(anyString());
+        verify(vue, times(12)).afficheMessage(anyString());
 
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
+        ordreMsg.verify(vue).finit();
 
         assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé "+bonneRéponse);
 
@@ -154,9 +154,9 @@ class ClientTest {
         }
 
         // 6 trop grand, 6 on répond et on a gagné car 6 = init - bonneReponse
-        verify(vue, times((init-bonneRéponse)*2+1)).afficheMessage(anyString());
+        verify(vue, times((init-bonneRéponse)*2)).afficheMessage(anyString());
+        verify(vue, times((1))).finit();
 
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
 
         assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé "+bonneRéponse);
 

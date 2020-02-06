@@ -75,8 +75,10 @@ public class Client {
     }
 
     public void finPartie() {
-        getVue().afficheMessage("on a gagné !! ");
+        getVue().finit();
+        // @todo ici les deux sont en même temps car le serveur coupe brutalement
         getConnexion().stop();
+        getConnexion().finishing();
     }
 
 

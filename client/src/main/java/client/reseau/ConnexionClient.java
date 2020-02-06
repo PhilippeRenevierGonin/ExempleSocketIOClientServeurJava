@@ -106,8 +106,30 @@ public class ConnexionClient {
 
     public void stop() {
 
+        connexion.off("connect");
+        connexion.off("question");
         connexion.disconnect();
-        connexion.close();
+
+
+    }
+
+    public void finishing() {
+
+        // pour ne pas être sur le thread de SocketIO
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                connexion.off("disconnect");
+                connexion.close();
+                System.out.println("@todo >>>> c'est fini");
+                // hack pour arrêter plus vite (sinon attente de plusieurs secondes
+                // System.exit(0);
+            }
+        }).start() ;
+
+
+
     }
 
 

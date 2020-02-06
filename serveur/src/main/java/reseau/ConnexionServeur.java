@@ -89,7 +89,27 @@ public class ConnexionServeur {
     }
 
     public void arrêter() {
+        System.out.println("fin du serveur - début");
+
         for(SocketIOClient c : map.values()) c.disconnect();
-        serveur.stop();
+
+
+        System.out.println("fin du serveur - désabonnement");
+
+        getServeur().removeAllListeners("réponse");
+        getServeur().removeAllListeners("identification");
+
+
+        System.out.println("fin du serveur - stop");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getServeur().stop(); // à faire sur un autre thread que sur le thread de SocketIO
+                System.out.println("fin du serveur - fin");
+
+            }
+        }).start();
+
     }
 }

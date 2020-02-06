@@ -90,10 +90,10 @@ class ClientTropPetitTest {
 
         // 6 trop grand, 16 on répond et on a gagné
         // @TODO appel de deux fois finPartie... pourquoi ? => déconnecté
-        verify(vue, times(33)).afficheMessage(anyString());
+        verify(vue, times(32)).afficheMessage(anyString());
 
         verify(connexion, times(1)).envoyerCoup(bonneRéponse);
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
+        ordreMsg.verify(vue).finit();
 
         assertEquals(bonneRéponse, client.getPropositionCourante(), "normalement on a trouvé "+bonneRéponse);
 
