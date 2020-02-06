@@ -9,6 +9,8 @@ import reseau.ConnexionServeur;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -62,8 +64,25 @@ public class Serveur {
             e.printStackTrace();
         }
 
+        String nomHote ;
+        String adresseIPLocale ;
+
+        try{
+            InetAddress inetadr = InetAddress.getLocalHost();
+            //nom de machine
+            nomHote = (String) inetadr.getHostName();
+            System.out.println("Nom de la machine = "+nomHote );
+            //adresse ip sur le réseau
+            adresseIPLocale = (String) inetadr.getHostAddress();
+            System.out.println("Adresse IP locale = "+adresseIPLocale );
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
         Serveur serveur = new Serveur();
-        ConnexionServeur connexion = new ConnexionServeur("127.0.0.1", 10101);
+        // ack de connexion sur l'adresse docker
+        ConnexionServeur connexion = new ConnexionServeur("172.17.0.2", 10101);
 
         connexion.setMoteur(serveur);
         serveur.setConnexion(connexion);

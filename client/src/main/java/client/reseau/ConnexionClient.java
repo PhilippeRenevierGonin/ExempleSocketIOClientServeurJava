@@ -124,7 +124,7 @@ public class ConnexionClient {
                 connexion.close();
                 System.out.println("@todo >>>> c'est fini");
                 // hack pour arrêter plus vite (sinon attente de plusieurs secondes
-                // System.exit(0);
+                System.exit(0);
             }
         }).start() ;
 

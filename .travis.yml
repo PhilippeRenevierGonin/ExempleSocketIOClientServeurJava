@@ -2,8 +2,20 @@ language: java
 jdk:
   - openjdk11
 
+services:
+  - docker
+
+install:
+  - mvn install -DskipTests
+
+before_script:
+  - docker rm serveurio
+  - docker rmi exempleio:serveur
+  - docker build serveur -t exempleio:serveur
+  - docker images
 
 script:
   - mvn test
-  - cd lanceur
+  - docker run -d  -p 10101:10101 --name serveurio  exempleio:serveur
+  - cd client
   - mvn exec:java
