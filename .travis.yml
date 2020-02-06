@@ -18,5 +18,6 @@ script:
   - cd client
   - mvn exec:java
 # on efface à la fin le container et le l'image docker
+  - docker stop serveurio
   - docker rm serveurio
   - docker rmi exempleio:serveur
