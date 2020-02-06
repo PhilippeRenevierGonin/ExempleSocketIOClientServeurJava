@@ -4,5 +4,6 @@ jdk:
 
 
 script:
+  - mvn test
   - cd lanceur
   - mvn exec:java
