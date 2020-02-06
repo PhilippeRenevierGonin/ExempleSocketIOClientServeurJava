@@ -9,8 +9,6 @@ install:
   - mvn install -DskipTests
 
 before_script:
-  - docker rm serveurio
-  - docker rmi exempleio:serveur
   - docker build serveur -t exempleio:serveur
   - docker images
 
@@ -19,3 +17,6 @@ script:
   - docker run -d  -p 10101:10101 --name serveurio  exempleio:serveur
   - cd client
   - mvn exec:java
+# on efface à la fin le container et le l'image docker
+  - docker rm serveurio
+  - docker rmi exempleio:serveur
