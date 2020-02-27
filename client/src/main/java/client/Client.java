@@ -116,9 +116,12 @@ public class Client {
             e.printStackTrace();
         }
 
+        String serveurIp = "127.0.0.1";
+        if (args.length > 0) serveurIp = args[0];
+
         Client client = new Client();
         Vue vue = new Vue(client);
-        ConnexionClient connexion = new ConnexionClient("http://127.0.0.1:10101", client);
+        ConnexionClient connexion = new ConnexionClient("http://"+serveurIp+":10101", client);
         client.seConnecter();
 
 

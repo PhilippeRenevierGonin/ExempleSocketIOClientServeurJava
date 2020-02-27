@@ -65,7 +65,7 @@ public class Serveur {
         }
 
         String nomHote ;
-        String adresseIPLocale ;
+        String adresseIPLocale = "172.17.0.2";
 
         try{
             InetAddress inetadr = InetAddress.getLocalHost();
@@ -82,7 +82,7 @@ public class Serveur {
 
         Serveur serveur = new Serveur();
         // ack de connexion sur l'adresse docker
-        ConnexionServeur connexion = new ConnexionServeur("172.17.0.2", 10101);
+        ConnexionServeur connexion = new ConnexionServeur(adresseIPLocale, 10101);
 
         connexion.setMoteur(serveur);
         serveur.setConnexion(connexion);
