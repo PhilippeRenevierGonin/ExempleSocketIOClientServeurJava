@@ -5,6 +5,10 @@ import com.corundumstudio.socketio.SocketIOClient;
 
 import commun.Coup;
 import commun.Identification;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import reseau.ConnexionServeur;
 
 import java.io.PrintStream;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
  * attend une connexion, on envoie une question puis on attend une réponse, jusqu'à la découverte de la bonne réponse
  * le client s'identifie (som, niveau)
  */
+@SpringBootApplication
 public class Serveur {
 
     private int àTrouvé = 42;
@@ -64,33 +69,39 @@ public class Serveur {
             e.printStackTrace();
         }
 
-        String nomHote ;
-        String adresseIPLocale = "172.17.0.2";
+        SpringApplication.run(Serveur.class);
+    }
 
-        try{
-            InetAddress inetadr = InetAddress.getLocalHost();
-            //nom de machine
-            nomHote = (String) inetadr.getHostName();
-            System.out.println("Nom de la machine = "+nomHote );
-            //adresse ip sur le réseau
-            adresseIPLocale = (String) inetadr.getHostAddress();
-            System.out.println("Adresse IP locale = "+adresseIPLocale );
+    @Bean
+    public CommandLineRunner run() throws Exception {
+        return args -> {
+            String nomHote;
+            String adresseIPLocale = "172.17.0.2";
 
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+            try {
+                InetAddress inetadr = InetAddress.getLocalHost();
+                //nom de machine
+                nomHote = (String) inetadr.getHostName();
+                System.out.println("Nom de la machine = " + nomHote);
+                //adresse ip sur le réseau
+                adresseIPLocale = (String) inetadr.getHostAddress();
+                System.out.println("Adresse IP locale = " + adresseIPLocale);
 
-        Serveur serveur = new Serveur();
-        // ack de connexion sur l'adresse docker
-        ConnexionServeur connexion = new ConnexionServeur(adresseIPLocale, 10101);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
 
-        connexion.setMoteur(serveur);
-        serveur.setConnexion(connexion);
+            // Serveur serveur = new Serveur();
+            // ack de connexion sur l'adresse docker
+            ConnexionServeur connexion = new ConnexionServeur(adresseIPLocale, 10101);
 
-        serveur.démarrer();
+            connexion.setMoteur(this);
+            setConnexion(connexion);
+
+            démarrer();
 
 
-
+        };
     }
 
 

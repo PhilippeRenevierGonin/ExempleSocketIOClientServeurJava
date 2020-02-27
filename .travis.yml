@@ -17,13 +17,7 @@ before_script:
 script:
   - mvn test
   - docker-compose run serveur
-#  - docker run -d  -p 10101:10101 --name serveurio  exempleio:serveur
-#  - cd client
-#  - mvn exec:java
-# on efface à la fin le container et le l'image docker
-#  - docker stop serveurio
-#  - docker rm serveurio
-#  - docker rmi exempleio:serveur
+#  on efface tous les containers éteints puis les images)
   - docker rm $(docker ps -a -q)
   - docker ps -a -q
   - docker rmi exempleio:serveur
