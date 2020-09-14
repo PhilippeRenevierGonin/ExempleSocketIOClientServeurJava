@@ -17,6 +17,7 @@ before_script:
 script:
   - mvn test
   - docker-compose run serveur
+  - docker-compose logs
 #  on efface tous les containers éteints puis les images)
   - docker rm $(docker ps -a -q)
   - docker ps -a -q
