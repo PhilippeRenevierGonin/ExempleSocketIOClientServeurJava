@@ -1,3 +1,5 @@
+Note : c'est un projet bac à sable
+
 # ExempleSocketIOClientServeurJava
 pour les cours de projets en Licence, exemple de client serveur
 Note : le serveur étant vexé quand on trouve le résultat, il se contente de se (ren)fermer :-)
