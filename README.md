@@ -1,4 +1,4 @@
-Note : c'est un projet bac à sable
+Note : c'est un projet bac à sable, exemple. 
 
 # ExempleSocketIOClientServeurJava
 pour les cours de projets en Licence, exemple de client serveur
