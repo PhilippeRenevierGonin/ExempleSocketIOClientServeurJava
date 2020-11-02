@@ -47,7 +47,7 @@ class ClientTest {
         // on peut ajouter une méthode "dernierCoupJouer"
         int dernierCoupJouer = client.propositionCourante;
         client.rejouer(true, null);
-        assertEquals(dernierCoupJouer-1, client.propositionCourante, "normalement on a diminué de 1 par rapport à "+client.propositionCourante);
+        assertEquals(dernierCoupJouer - 1, client.propositionCourante, "normalement on a diminué de 1 par rapport à " + client.propositionCourante);
         // ni assert ni rien, juste pour voir que cela passe
     }
 
@@ -57,9 +57,9 @@ class ClientTest {
         // on peut ajouter une méthode "dernierCoupJouer"
         int dernierCoupJouer = client.propositionCourante;
         client.rejouer(true, null);
-        assertEquals(dernierCoupJouer-1, client.propositionCourante, "normalement on a diminué de 1 par rapport à "+client.propositionCourante);
-        verify(connexion, times(1)).envoyerCoup(dernierCoupJouer-1);
-        verify(vue, times(1)).afficheMessage("on répond "+(dernierCoupJouer-1));
+        assertEquals(dernierCoupJouer - 1, client.propositionCourante, "normalement on a diminué de 1 par rapport à " + client.propositionCourante);
+        verify(connexion, times(1)).envoyerCoup(dernierCoupJouer - 1);
+        verify(vue, times(1)).afficheMessage("on répond " + (dernierCoupJouer - 1));
         // ni assert ni rien, juste pour voir que cela passe
     }
 
@@ -70,13 +70,12 @@ class ClientTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Object [] args = invocationOnMock.getArguments();
+                Object[] args = invocationOnMock.getArguments();
                 int val = (int) args[0];
 
                 if (bonneRéponse != val) {
                     client.rejouer((val > bonneRéponse), null);
-                }
-                else client.finPartie();
+                } else client.finPartie();
 
                 return null;
             }
@@ -93,22 +92,20 @@ class ClientTest {
         verify(connexion, times(1)).envoyerCoup(40);
 
         // rejouer a été appele après 40... 39.. 35... donc 6 fois
-        for(int i = 39; i > bonneRéponse; i--) {
+        for (int i = 39; i > bonneRéponse; i--) {
             verify(connexion, times(1)).envoyerCoup(i);
             ordreMsg.verify(vue).afficheMessage("la réponse précédente était : trop grande");
-            ordreMsg.verify(vue).afficheMessage("on répond "+i);
+            ordreMsg.verify(vue).afficheMessage("on répond " + i);
         }
 
         // 6 trop grand, 6 on répond et on a gagné
-        verify(vue, times(13)).afficheMessage(anyString());
+        verify(vue, times(12)).afficheMessage(anyString());
 
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
+        ordreMsg.verify(vue).finit();
 
-        assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé "+bonneRéponse);
+        assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé " + bonneRéponse);
 
     }
-
-
 
 
     @ParameterizedTest(name = "{index} => bonneRéponse={0}, init={1}")
@@ -124,13 +121,12 @@ class ClientTest {
         doAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                Object [] args = invocationOnMock.getArguments();
+                Object[] args = invocationOnMock.getArguments();
                 int val = (int) args[0];
 
                 if (bonneRéponse != val) {
                     client.rejouer((val > bonneRéponse), null);
-                }
-                else client.finPartie();
+                } else client.finPartie();
 
                 return null;
             }
@@ -147,20 +143,21 @@ class ClientTest {
         verify(connexion, times(1)).envoyerCoup(init);
 
         // rejouer a été appele après 40... 39.. 35... donc 6 fois
-        for(int i = init-1; i > bonneRéponse; i--) {
+        for (int i = init - 1; i > bonneRéponse; i--) {
             verify(connexion, times(1)).envoyerCoup(i);
             ordreMsg.verify(vue).afficheMessage("la réponse précédente était : trop grande");
-            ordreMsg.verify(vue).afficheMessage("on répond "+i);
+            ordreMsg.verify(vue).afficheMessage("on répond " + i);
         }
 
         // 6 trop grand, 6 on répond et on a gagné car 6 = init - bonneReponse
-        verify(vue, times((init-bonneRéponse)*2+1)).afficheMessage(anyString());
+        verify(vue, times((init - bonneRéponse) * 2)).afficheMessage(anyString());
+        verify(vue, times((1))).finit();
 
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
 
-        assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé "+bonneRéponse);
+        assertEquals(bonneRéponse, client.propositionCourante, "normalement on a trouvé " + bonneRéponse);
 
     }
 
 
 }
+

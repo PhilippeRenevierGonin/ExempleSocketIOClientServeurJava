@@ -42,11 +42,13 @@ class ClientTropPetitTest {
 
     }
 
-    @Disabled("c'était juste pour montrer...")
+    /*
+    @Disabled("c'était juste pour montrer... en cours")
     @Test
     void rejouer() {
         client.rejouer(true,null);
     }
+    */
 
     @Test
     void testScenarioTropPetit(){
@@ -81,19 +83,18 @@ class ClientTropPetitTest {
         // envoie du premier nombre
         verify(connexion, times(1)).envoyerCoup(10);
 
-        // rejouer a été appele après 40... 39.. 35... donc 6 fois
+        // rejouer a été appele après 10, 11, 12, 13 ... 25 donc 16 fois
         for(int i = 11; i < bonneRéponse; i++) {
             verify(connexion, times(1)).envoyerCoup(i);
             ordreMsg.verify(vue).afficheMessage("la réponse précédente était : trop petite");
             ordreMsg.verify(vue).afficheMessage("on répond "+i);
         }
 
-        // 6 trop grand, 16 on répond et on a gagné
-        // @TODO appel de deux fois finPartie... pourquoi ? => déconnecté
-        verify(vue, times(33)).afficheMessage(anyString());
+        // en tout il y a 2 affichage par tentative : la réponse du serveur puis la nouvelle proposition
+        verify(vue, times(32)).afficheMessage(anyString());
 
         verify(connexion, times(1)).envoyerCoup(bonneRéponse);
-        ordreMsg.verify(vue).afficheMessage("on a gagné !! ");
+        ordreMsg.verify(vue).finit();
 
         assertEquals(bonneRéponse, client.getPropositionCourante(), "normalement on a trouvé "+bonneRéponse);
 
