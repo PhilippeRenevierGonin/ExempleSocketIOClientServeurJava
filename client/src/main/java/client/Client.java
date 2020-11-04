@@ -15,7 +15,7 @@ public class Client {
     Identification moi = new Identification("Michel B", 42);
 
     ConnexionClient connexion;
-    int propositionCourante = 30;
+    int propositionCourante = 60;
 
     // Objet de synchro
     private Vue vue;

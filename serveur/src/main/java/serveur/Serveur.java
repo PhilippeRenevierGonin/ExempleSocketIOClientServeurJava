@@ -24,6 +24,10 @@ public class Serveur {
 
     ConnexionServeur connexion;
 
+    public Serveur(int valeurVoulue) {
+        this.àTrouvé = valeurVoulue;
+    }
+
     public ConnexionServeur getConnexion() {
         return connexion;
     }
@@ -33,7 +37,7 @@ public class Serveur {
     }
 
     public Serveur()  {
-
+        this(42);
     }
 
 
@@ -77,7 +81,7 @@ public class Serveur {
 
     public void nouveauJoeur(SocketIOClient socketIOClient, Identification identification) {
         System.out.println("Le client est "+identification.getNom());
-        leClient = new Identification(identification.getNom(), identification.getNiveau());
+        setLeClient(new Identification(identification.getNom(), identification.getNiveau()));
         connexion.associer(leClient, socketIOClient);
         // on enchaine sur une question
         poserUneQuestion();
@@ -96,5 +100,15 @@ public class Serveur {
             System.out.println("le client doit encore cherché ");
             poserUneQuestion(coup.isPlusGrand());
         }
+    }
+
+
+    // todo : refactoring de leClient en leJoueur
+    public void setLeClient(Identification leClient) {
+        this.leClient = leClient;
+    }
+
+    public Identification getLeClient() {
+        return leClient;
     }
 }

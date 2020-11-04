@@ -16,17 +16,19 @@
 
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
-        <compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+        <project.build.sourceEncoding>UTF-8
+        </project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
+        <compiler.source>1.8
+        </compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
         <compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
     </properties>
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
+        <sourceDirectory>src/main/java
+        </sourceDirectory>  <!-- éventuellement à changer : localisation des fichiers sources -->
 
 
         <plugins>
-
 
 
             <plugin>
@@ -69,6 +71,23 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.6.2</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.5.10</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
