@@ -117,14 +117,19 @@ public class Serveur {
     }
 
 
-    public synchronized boolean nouveauJoeur(SocketIOClient socketIOClient, Identification identification) {
+    public synchronized boolean nouveauJoueur(SocketIOClient socketIOClient, Identification identification) {
         if (leClient == null)
         {
             System.out.println("Le client est "+identification.getNom());
             leClient = new Identification(identification.getNom(), identification.getNiveau());
             connexion.associer(leClient, socketIOClient);
             // on enchaine sur une question
-            poserUneQuestion();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    poserUneQuestion();
+                }
+            }).start();
             return true;
         }
         else {

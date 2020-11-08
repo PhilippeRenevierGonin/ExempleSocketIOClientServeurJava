@@ -51,10 +51,16 @@ public class ConnexionServeur {
             @Override
             public void onData(SocketIOClient socketIOClient, Identification identification, AckRequest ackRequest) throws Exception {
                 System.out.println("connexion de "+socketIOClient.getRemoteAddress());
-                boolean accepté = moteur.nouveauJoeur(socketIOClient, identification);
+                boolean accepté = moteur.nouveauJoueur(socketIOClient, identification);
                 if (! accepté) {
                     // il n'est pas accepté on disconnecte...
-                    socketIOClient.disconnect();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // bricolage car code initialement fait pour 1 - 1 , il faudrait revoir le protocole.
+                            socketIOClient.disconnect();
+                        }
+                    }).start();
                 }
             }
         });
@@ -116,6 +122,8 @@ public class ConnexionServeur {
 
                 getServeur().removeAllListeners("réponse");
                 getServeur().removeAllListeners("identification");
+
+                //TODO : la fin ne fonctionne pas toujours sur travis... (un des clients ne s'arrête pas)
 
 
                 getServeur().stop(); // à faire sur un autre thread que sur le thread de SocketIO
