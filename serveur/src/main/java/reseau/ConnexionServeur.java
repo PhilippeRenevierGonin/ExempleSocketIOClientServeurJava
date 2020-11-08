@@ -101,14 +101,6 @@ public class ConnexionServeur {
         for(SocketIOClient c : map.values()) c.disconnect();
 
 
-        System.out.println("fin du serveur - désabonnement");
-
-        getServeur().removeAllListeners("réponse");
-        getServeur().removeAllListeners("identification");
-
-
-        System.out.println("fin du serveur - stop");
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -117,6 +109,15 @@ public class ConnexionServeur {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                System.out.println("fin du serveur - stop");
+
+                System.out.println("fin du serveur - désabonnement");
+
+                getServeur().removeAllListeners("réponse");
+                getServeur().removeAllListeners("identification");
+
+
                 getServeur().stop(); // à faire sur un autre thread que sur le thread de SocketIO
                 System.out.println("fin du serveur - fin");
 
