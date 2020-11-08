@@ -23,7 +23,9 @@ public class ConnexionClient {
         controleur.setConnexion(this);
 
         try {
-            connexion = IO.socket(urlServeur);
+            IO.Options opts = new IO.Options();
+            opts.timeout =1000;
+            connexion = IO.socket(urlServeur, opts);
 
             this.controleur.transfèreMessage("on s'abonne à la connection / déconnection ");;
 
@@ -32,6 +34,7 @@ public class ConnexionClient {
                 public void call(Object... objects) {
                     // déplacement du message dans Client/Controleur
                     // on s'identifie
+                    controleur.transfèreMessage("après connexion");;
                     controleur.aprèsConnexion();
 
                 }
@@ -41,8 +44,19 @@ public class ConnexionClient {
                 @Override
                 public void call(Object... objects) {
                     controleur.transfèreMessage(" !! on est déconnecté !! ");
-                    connexion.disconnect();
-                    connexion.close();
+                    // connexion.disconnect();
+                    // connexion.close();
+                    controleur.finPartie();
+
+                }
+            });
+
+            connexion.on("error", new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    controleur.transfèreMessage(" !! erreur de connexion !! ");
+                    /// connexion.disconnect();
+                    /// connexion.close();
                     controleur.finPartie();
 
                 }
@@ -108,6 +122,7 @@ public class ConnexionClient {
 
         connexion.off("connect");
         connexion.off("question");
+        connexion.off("error");
         connexion.disconnect();
 
 

@@ -13,6 +13,7 @@ import serveur.Serveur;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class ConnexionServeur {
 
@@ -37,18 +38,24 @@ public class ConnexionServeur {
 
         setServeur(new SocketIOServer(config));
 
+        /*
         getServeur().addConnectListener(new ConnectListener() {
             public void onConnect(SocketIOClient socketIOClient) {
                 System.out.println("connexion de "+socketIOClient.getRemoteAddress());
             }
         });
-
+        */
 
         // réception d'une identification
         serveur.addEventListener("identification", Identification.class, new DataListener<Identification>() {
             @Override
             public void onData(SocketIOClient socketIOClient, Identification identification, AckRequest ackRequest) throws Exception {
-                moteur.nouveauJoeur(socketIOClient, identification);
+                System.out.println("connexion de "+socketIOClient.getRemoteAddress());
+                boolean accepté = moteur.nouveauJoeur(socketIOClient, identification);
+                if (! accepté) {
+                    // il n'est pas accepté on disconnecte...
+                    socketIOClient.disconnect();
+                }
             }
         });
 
@@ -105,6 +112,11 @@ public class ConnexionServeur {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(3000); // attente de seconde pour laisser le temps aux autres de se connecter.... pour la démo du scale
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 getServeur().stop(); // à faire sur un autre thread que sur le thread de SocketIO
                 System.out.println("fin du serveur - fin");
 

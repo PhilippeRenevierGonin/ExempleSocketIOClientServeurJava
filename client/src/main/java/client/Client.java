@@ -8,6 +8,8 @@ import commun.Identification;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class Client {
@@ -109,18 +111,25 @@ public class Client {
 
 
 
-    public static final void main(String []args) {
+    public static final void main(String []args) throws UnknownHostException {
         try {
             System.setOut(new PrintStream(System.out, true, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
+
+        System.out.println("********************************************");
+        System.out.println("****************** IP **********************");
+        System.out.println(InetAddress.getLocalHost().getHostAddress());
+        System.out.println("********************************************");
+
         String serveurIp = "127.0.0.1";
         if (args.length > 0) serveurIp = args[0];
 
         Client client = new Client();
         Vue vue = new Vue(client);
+        System.out.println("config du serveur http://"+serveurIp+":10101");
         ConnexionClient connexion = new ConnexionClient("http://"+serveurIp+":10101", client);
         client.seConnecter();
 

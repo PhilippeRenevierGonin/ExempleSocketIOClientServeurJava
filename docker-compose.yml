@@ -2,22 +2,23 @@ version: '3'
 
 services:
 
-  client:
-    image: exempleio:client
-    container_name: client
-    networks:
-      testing_net:
-        ipv4_address: 172.28.0.3
-
 
   serveur:
     image: exempleio:serveur
     container_name: serveur
     networks:
       testing_net:
-        ipv4_address: 172.28.0.2
+        ipv4_address: 172.28.0.253
     depends_on:
       - client
+
+  client:
+    image: exempleio:client
+    # container_name: client
+    networks:
+      testing_net:
+      #  ipv4_address: 172.28.0.3
+
 
 
 

@@ -40,14 +40,26 @@ public class Serveur {
     }
 
     public Serveur()  {
+        this(42);
+    }
 
+    public Serveur(int valeurVoulue) {
+        this.àTrouvé = valeurVoulue;
+    }
+
+    // todo : refactoring de leClient en leJoueur
+    public void setLeClient(Identification leClient) {
+        this.leClient = leClient;
+    }
+
+    public Identification getLeClient() {
+        return leClient;
     }
 
 
     public void démarrer() {
 
         connexion.démarrer();
-
 
     }
 
@@ -105,12 +117,20 @@ public class Serveur {
     }
 
 
-    public void nouveauJoeur(SocketIOClient socketIOClient, Identification identification) {
-        System.out.println("Le client est "+identification.getNom());
-        leClient = new Identification(identification.getNom(), identification.getNiveau());
-        connexion.associer(leClient, socketIOClient);
-        // on enchaine sur une question
-        poserUneQuestion();
+    public synchronized boolean nouveauJoeur(SocketIOClient socketIOClient, Identification identification) {
+        if (leClient == null)
+        {
+            System.out.println("Le client est "+identification.getNom());
+            leClient = new Identification(identification.getNom(), identification.getNiveau());
+            connexion.associer(leClient, socketIOClient);
+            // on enchaine sur une question
+            poserUneQuestion();
+            return true;
+        }
+        else {
+            System.out.println("ce serveur n'est fait que pour un client");
+            return false;
+        }
     }
 
     public void reçoitRéponse(Integer integer) {
