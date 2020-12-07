@@ -9,6 +9,7 @@ install:
   - mvn install -DskipTests
 
 before_script:
+  - docker-compose --version
   - docker ps -a -q
   - docker build serveur -t exempleio:serveur
   - docker build client -t exempleio:client
