@@ -7,7 +7,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
+        <version>2.5.4</version>
+        <relativePath/>
     </parent>
 
 
@@ -25,8 +26,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
-        <compiler.source>1.8</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
-        <compiler.target>1.8</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+        <compiler.source>17</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+        <compiler.target>17</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
     </properties>
 
     <build>
@@ -40,7 +41,7 @@
             <!-- pour executer les tests JUNIT5 -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>3.0.0-M5</version>
             </plugin>
 
 
@@ -49,10 +50,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source> <!-- éventuellement à changer : version de java -->
-                    <target>1.8</target> <!-- éventuellement à changer : version de java -->
+                    <source>17</source> <!-- éventuellement à changer : version de java -->
+                    <target>17</target> <!-- éventuellement à changer : version de java -->
                 </configuration>
             </plugin>
 
@@ -60,7 +61,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.3.1</version>
                 <configuration>
                     <show>package</show>
                     <nohelp>true</nohelp>
