@@ -24,6 +24,12 @@ class ServeurTest {
     @Mock
     ConnexionServeur connexion;
 
+    public ServeurTest() {
+        System.out.println("-------------------- VERIF VISUEL ----------------------------");
+        System.out.println(System.getProperty("java.version"));
+        System.out.println("--------------------------------------------------------");
+    }
+
     @BeforeEach
     void setUp() {
         valeurÀTrouvée = 24;
