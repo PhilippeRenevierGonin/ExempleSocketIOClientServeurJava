@@ -33,7 +33,7 @@ Les différentes étapes :
 * branche **autreExemple** : un début de développement (sans test) sur le jeu 7Wonders
 
 les dépendences maven côté serveur : 
-```
+```xml
 <dependencies>
 	<dependency>
      		 <groupId>com.corundumstudio.socketio</groupId>
@@ -54,10 +54,44 @@ les dépendences maven côté serveur :
 ```
 
 les dépendences maven côté client
-```
+```xml
 <dependency> 
     <groupId>io.socket</groupId>
     <artifactId>socket.io-client</artifactId>
     <version>1.0.0</version>
 </dependency>   
+```
+les dépendences junit et mockito côté client
+```xml
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.12.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- pour les tests "paramétrés" -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+        
 ```
