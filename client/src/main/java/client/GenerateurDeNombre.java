@@ -6,6 +6,14 @@ public class GenerateurDeNombre {
 
     private Random alea = new Random();
 
+    public Random getAlea() {
+        return alea;
+    }
+
+    public void setAlea(Random alea) {
+        this.alea = alea;
+    }
+
     /**
      * méthode pour illustrer le mock et when / thenReturn
      * @param min
