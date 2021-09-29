@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class Client {
 
+    private final GenerateurDeNombre generateurDeNombre;
     Identification moi = new Identification("Michel B", 42);
 
     ConnexionClient connexion;
@@ -22,7 +23,8 @@ public class Client {
     // Objet de synchro
     private Vue vue;
 
-    public Client() {
+    public Client(GenerateurDeNombre generateurDeNombre) {
+        this.generateurDeNombre = generateurDeNombre;
     }
 
 
@@ -104,6 +106,7 @@ public class Client {
 
     public void premierCoup() {
         // au premier coup, on envoie le nombre initial
+        propositionCourante = generateurDeNombre.generate(0,100);
         connexion.envoyerCoup(propositionCourante);
     }
 
@@ -127,7 +130,8 @@ public class Client {
         String serveurIp = "127.0.0.1";
         if (args.length > 0) serveurIp = args[0];
 
-        Client client = new Client();
+        GenerateurDeNombre alea = new GenerateurDeNombre();
+        Client client = new Client(alea);
         Vue vue = new Vue(client);
         System.out.println("config du serveur http://"+serveurIp+":10101");
         ConnexionClient connexion = new ConnexionClient("http://"+serveurIp+":10101", client);

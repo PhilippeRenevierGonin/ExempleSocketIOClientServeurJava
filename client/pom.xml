@@ -42,6 +42,9 @@
                 </executions>
                 <configuration>
                     <mainClass>client.Client</mainClass>
+                    <arguments>
+                        <argument>172.19.176.1</argument>
+                    </arguments>
                 </configuration>
             </plugin>
 

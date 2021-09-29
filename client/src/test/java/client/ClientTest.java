@@ -27,9 +27,12 @@ class ClientTest {
     @Mock
     private Vue vue;
 
+    @Mock
+    GenerateurDeNombre alea;
+
     @BeforeEach
     public void setUp() {
-        client = new Client();
+        client = new Client(alea);
         client.setConnexion(connexion);
         client.setVue(vue);
     }
@@ -47,23 +50,54 @@ class ClientTest {
         // on peut ajouter une méthode "dernierCoupJouer"
         int dernierCoupJouer = client.propositionCourante;
         client.rejouer(true, null);
-        assertEquals(dernierCoupJouer-1, client.propositionCourante, "normalement on a diminué de 1 par rapport à "+client.propositionCourante);
+        assertEquals(dernierCoupJouer-1, client.propositionCourante, "normalement on a diminué de 1 par rapport à "+dernierCoupJouer);
         // ni assert ni rien, juste pour voir que cela passe
     }
+
+    @Test
+    void coupDAvantTroPetit() {
+        // ici accès package à une propriété de Client...
+        // on peut ajouter une méthode "dernierCoupJouer"
+        int dernierCoupJouer = client.getPropositionCourante();
+        client.rejouer(false, null);
+        assertEquals(dernierCoupJouer+1, client.getPropositionCourante(), "normalement on a augmenté de 1 par rapport à "+dernierCoupJouer);
+        // ni assert ni rien, juste pour voir que cela passe
+    }
+
 
     @Test
     void coupDAvantTropGrandEtVerifDuProtocol() {
         // ici accès package à une propriété de Client...
         // on peut ajouter une méthode "dernierCoupJouer"
-        int dernierCoupJouer = client.propositionCourante;
+        int dernierCoupJouer = client.getPropositionCourante();
         client.rejouer(true, null);
-        assertEquals(dernierCoupJouer-1, client.propositionCourante, "normalement on a diminué de 1 par rapport à "+client.propositionCourante);
+        assertEquals(dernierCoupJouer-1, client.getPropositionCourante(), "normalement on a diminué de 1 par rapport à "+client.propositionCourante);
         verify(connexion, times(1)).envoyerCoup(dernierCoupJouer-1);
         verify(vue, times(1)).afficheMessage("on répond "+(dernierCoupJouer-1));
         // ni assert ni rien, juste pour voir que cela passe
     }
 
+    /**
+     * juste pour illustrer le then return
+     */
+    @Test
+    void illustrationWhenThenReturn() {
+        when(alea.generate(anyInt(), anyInt())).thenReturn(4,3);
+        // le test qui test mockito
+        // normalement connexion.calcule devrait être appelé dans une méthode de Client
+        assertEquals(4, alea.generate(0,100));
+        assertEquals(3, alea.generate(0, 100));
 
+        client.premierCoup(); // alea va être appelé
+        assertEquals(3, client.getPropositionCourante(), "normalement on a commencé avec 3; c'est le mock");
+
+    }
+
+
+    /**
+     * On teste les échanges avec le serveur (fake) dans le cas où la réponse est 34
+     * et le joueur commence par 40.
+     */
     @Test
     void unScénarioCompletInitTropGrand() {
         final int bonneRéponse = 34;
@@ -83,7 +117,9 @@ class ClientTest {
         }).when(connexion).envoyerCoup(anyInt());
 
         // initialisation ici sauvage, on pourrait/devrait mettre un setter
-        client.propositionCourante = 40;
+        // client.propositionCourante = 40;
+        when(alea.generate(anyInt(), anyInt())).thenReturn(40);
+
         // un ordre pour les messages textuels
         InOrder ordreMsg = inOrder(vue);
 
@@ -137,7 +173,9 @@ class ClientTest {
         }).when(connexion).envoyerCoup(anyInt());
 
         // initialisation ici sauvage, on pourrait/devrait mettre un setter
-        client.propositionCourante = init;
+        // client.propositionCourante = init;
+        when(alea.generate(anyInt(), anyInt())).thenReturn(init);
+
         // un ordre pour les messages textuels
         InOrder ordreMsg = inOrder(vue);
 

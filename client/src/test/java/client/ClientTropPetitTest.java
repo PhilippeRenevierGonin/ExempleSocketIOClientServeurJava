@@ -29,12 +29,13 @@ class ClientTropPetitTest {
     @Mock
     Vue vue;
 
-
+    @Mock
+    GenerateurDeNombre alea;
 
     @BeforeEach
     void setUp() {
-
-        client = new Client();
+        client = new Client(alea);
+        // client = spy(client);
         // vue = spy(new Vue(client)); // si vue n'est pas un mock
         client.setVue(vue);
         client.setConnexion(connexion);
@@ -71,7 +72,9 @@ class ClientTropPetitTest {
         }).when(connexion).envoyerCoup(anyInt());
 
 
-        client.setPropositionCourante(10);
+        // client.setPropositionCourante(10);
+        when(alea.generate(0, 100)).thenReturn(10);
+
 
         // un ordre pour les messages textuels
         InOrder ordreMsg = inOrder(vue);
