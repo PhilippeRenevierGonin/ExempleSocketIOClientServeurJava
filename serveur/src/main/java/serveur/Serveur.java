@@ -87,9 +87,12 @@ public class Serveur {
 
         serveur.start();
 
-        System.out.println("en attente de connexion");
+        System.out.println("en attente de connexion... la connexion se fera sur un thread de SocketIO, ce thread dit 'principal' du lancement du programme est en attente de la fin du jeu (exécuté sur le thread de socketIO)");
+        
+        // il n'y a plus rien à faire sur ce thread, on attend la fin de la partie
         synchronized (attenteConnexion) {
             try {
+                // on attend qu'une notification, depuis un thread de socketIO, quand le jeu sera fini
                 attenteConnexion.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -97,7 +100,7 @@ public class Serveur {
             }
         }
 
-        System.out.println("Une connexion est arrivée, on arrête");
+        System.out.println("Le jeu vient de se terminer, on vient d'être notifier depuis un thread de socketIO, on arrête");
         serveur.stop();
 
     }
