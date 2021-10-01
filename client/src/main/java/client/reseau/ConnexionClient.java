@@ -24,7 +24,7 @@ public class ConnexionClient {
 
         try {
             IO.Options opts = new IO.Options();
-            opts.timeout =1000;
+            opts.timeout = 1000; // en ms
             connexion = IO.socket(urlServeur, opts);
 
             this.controleur.transfèreMessage("on s'abonne à la connection / déconnection ");;
@@ -59,6 +59,20 @@ public class ConnexionClient {
                     /// connexion.close();
                     controleur.finPartie();
 
+                }
+            });
+
+            connexion.on("reconnect_attempt", new Emitter.Listener() {
+                @Override
+                public void call(Object... objects) {
+                    controleur.transfèreMessage(" !! reconnect_attempt !! "+objects[0]);
+                    int nb_attempt = (int) objects[0];
+                    /// connexion.disconnect();
+                    /// 60s max d'attente
+                    if (nb_attempt > 60) {
+                        controleur.transfèreMessage(" !! reconnect_attempt !! on n'arrive pas à se connecter...");
+                        controleur.finPartie();
+                    }
                 }
             });
 
