@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>client-serveur</groupId>
+        <artifactId>client-serveur</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>report</artifactId>
+    <version>1.0</version>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
+        <compiler.source>17</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+        <compiler.target>17</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>client-serveur</groupId>
+            <artifactId>commun</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>client-serveur</groupId>
+            <artifactId>serveur</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>client-serveur</groupId>
+            <artifactId>client</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+
+
+    <build>
+
+        <plugins>
+
+
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <id>report-aggregate</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
