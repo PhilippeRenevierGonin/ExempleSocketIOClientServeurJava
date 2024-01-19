@@ -17,8 +17,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- éventuellement à changer : encodage de vos fichiers -->
-        <compiler.source>17</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
-        <compiler.target>17</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
+        <compiler.source>21</compiler.source> <!-- éventuellement à changer : version de java (sdk) utilisée pour le développement -->
+        <compiler.target>21</compiler.target> <!-- éventuellement à changer : version de java pour l'utilisateur -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -39,7 +39,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version> <!-- à ne pas changer : c'est la version du plugin (et pas de java) -->
+                <version>3.1.1</version> <!-- à ne pas changer : c'est la version du plugin (et pas de java) -->
                 <executions>
                     <execution>
                         <goals>
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.8.0</version>
+            <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
 
@@ -113,7 +113,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.12.4</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
 

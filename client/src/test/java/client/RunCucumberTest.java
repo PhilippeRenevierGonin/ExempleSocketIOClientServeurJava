@@ -1,11 +1,14 @@
 package client;
 
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.ConfigurationParameter;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.SelectClasspathResource;
+import org.junit.platform.suite.api.Suite;
 
-@RunWith(value = Cucumber.class)
-@CucumberOptions(plugin = {"pretty"}, features = "src/test/resources/features")
-public class RunCucumberTest { // will run all features found on the classpath
-                               // in the same package as this class
+import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("client")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty")
+public class RunCucumberTest {
 }
